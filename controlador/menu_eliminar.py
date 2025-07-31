@@ -1,9 +1,9 @@
 """
-ELIMINAR ELEMENTOS - BORRA ELEMENTOS POR ID
+ELIMINAR ELEMENTOS - REMOVER DE LA COLECCIÓN
 """
 import json
 from pathlib import Path
-from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_mensaje
+from utils.terminal import limpiar_pantalla, mostrar_encabezado
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 
@@ -21,24 +21,19 @@ def guardar_datos(datos):
         json.dump(datos, f, indent=2)
 
 def mostrar():
-    """Menú de eliminación"""
+    """Interfaz de eliminación"""
     datos = cargar_datos()
-    if not datos:
-        print("\nNo hay elementos para eliminar")
-        input("Presione Enter...")
-        return False
-    
     limpiar_pantalla()
     mostrar_encabezado("ELIMINAR ELEMENTO")
     
-    id_eliminar = input("Ingrese ID del elemento: ").strip()
+    id_eliminar = input("Ingrese el ID del elemento a eliminar: ").strip()
     nuevos_datos = [item for item in datos if item['id'] != id_eliminar]
     
     if len(nuevos_datos) == len(datos):
-        mostrar_mensaje("ID no encontrado", "error")
+        print("\nError: ID no encontrado")
     else:
         guardar_datos(nuevos_datos)
-        mostrar_mensaje("¡Elemento eliminado!", "éxito")
+        print("\n¡Elemento eliminado exitosamente!")
     
-    input("Presione Enter...")
+    input("Presione Enter para continuar...")
     return False

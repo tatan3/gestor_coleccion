@@ -1,14 +1,12 @@
 """
-VALIDACIONES - CHECKS PARA DATOS DE ENTRADA
+VALIDACIONES - CHECKS BÁSICOS
 """
-from utils.terminal import mostrar_mensaje
-
 def validar_opcion(opcion, minimo, maximo):
-    """Valida que una opción esté dentro de un rango"""
+    """Valida que una opción esté en rango numérico"""
     if not opcion.isdigit():
-        mostrar_mensaje("Debe ingresar un número", "error")
+        print("\nError: Debe ingresar un número")
         return False
     if not minimo <= int(opcion) <= maximo:
-        mostrar_mensaje(f"Opción fuera de rango ({minimo}-{maximo})", "error")
+        print(f"\nError: Opción debe estar entre {minimo} y {maximo}")
         return False
     return True

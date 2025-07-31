@@ -3,8 +3,8 @@ AÑADIR ELEMENTOS - LIBROS, PELÍCULAS O MÚSICA
 """
 import json
 from pathlib import Path
-from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_mensaje
 from utils.generadores import generar_id
+from utils.terminal import limpiar_pantalla, mostrar_encabezado
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 
@@ -22,46 +22,40 @@ def guardar_datos(datos):
         json.dump(datos, f, indent=2)
 
 def mostrar():
-    """Menú para agregar nuevos elementos"""
-    while True:
-        limpiar_pantalla()
-        mostrar_encabezado("AÑADIR ELEMENTO")
-        
-        print("1. Libro")
-        print("2. Película")
-        print("3. Música")
-        print("4. Volver")
-        
-        opcion = input("\nSeleccione tipo (1-4): ").strip()
-        
-        if opcion == '4':
-            return False
-            
-        tipos = {'1': 'libro', '2': 'película', '3': 'música'}
-        if opcion in tipos:
-            datos = cargar_datos()
-            datos.append(crear_elemento(tipos[opcion]))
-            guardar_datos(datos)
-            mostrar_mensaje("¡Elemento añadido!", "éxito")
-            input("Presione Enter...")
-
-def crear_elemento(tipo):
-    """Solicita datos y retorna un nuevo elemento"""
+    """Interfaz para agregar nuevos elementos"""
+    datos = cargar_datos()
+    
     limpiar_pantalla()
-    mostrar_encabezado(f"NUEVO {tipo.upper()}")
+    mostrar_encabezado("AÑADIR NUEVO ELEMENTO")
     
-    titulo = input("Título: ").strip()
-    while not titulo:
-        mostrar_mensaje("El título es obligatorio", "error")
+    print("1. Libro")
+    print("2. Película")
+    print("3. Música")
+    print("4. Volver")
+    
+    opcion = input("\nSeleccione tipo (1-4): ").strip()
+    
+    if opcion == '4':
+        return False
+    
+    tipos = {'1': 'libro', '2': 'película', '3': 'música'}
+    if opcion in tipos:
+        tipo = tipos[opcion]
         titulo = input("Título: ").strip()
+        autor = input("Autor/Director/Artista: ").strip()
+        genero = input("Género: ").strip()
+        
+        nuevo_elemento = {
+            'id': generar_id(),
+            'tipo': tipo,
+            'titulo': titulo,
+            'autor': autor,
+            'genero': genero
+        }
+        
+        datos.append(nuevo_elemento)
+        guardar_datos(datos)
+        print(f"\n¡{tipo.capitalize()} agregado con éxito! ID: {nuevo_elemento['id']}")
+        input("Presione Enter para continuar...")
     
-    autor = input("Autor/Director/Artista: ").strip()
-    genero = input("Género: ").strip()
-    
-    return {
-        'id': generar_id(),
-        'tipo': tipo,
-        'titulo': titulo,
-        'autor': autor,
-        'genero': genero
-    }
+    return False

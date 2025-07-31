@@ -1,16 +1,18 @@
 """
 MENÚ PRINCIPAL - CENTRO DE NAVEGACIÓN
 """
-from controlador import (
-    menu_agregar, menu_ver, menu_buscar, 
-    menu_editar, menu_eliminar, menu_categorias, 
-    menu_archivos
-)
+from controlador.menu_agregar import mostrar as menu_agregar
+from controlador.menu_ver import mostrar as menu_ver
+from controlador.menu_buscar import mostrar as menu_buscar
+from controlador.menu_editar import mostrar as menu_editar
+from controlador.menu_eliminar import mostrar as menu_eliminar
+from controlador.menu_categorias import mostrar as menu_categorias
+from controlador.menu_archivos import mostrar as menu_archivos
 from utils.terminal import mostrar_encabezado
 
 def mostrar_menu_principal():
-    """Muestra y dirige a los submenús"""
-    mostrar_encabezado("GESTOR DE COLECCIÓN")
+    """Muestra el menú principal y redirige a submenús"""
+    mostrar_encabezado("GESTOR DE COLECCIÓN CULTURAL")
     
     print("1. Añadir elemento")
     print("2. Ver elementos")
@@ -21,17 +23,17 @@ def mostrar_menu_principal():
     print("7. Gestionar archivos")
     print("8. Salir")
     
-    opcion = input("\nSeleccione (1-8): ").strip()
+    opcion = input("\nSeleccione una opción (1-8): ").strip()
     
     acciones = {
-        '1': menu_agregar.mostrar,
-        '2': menu_ver.mostrar,
-        '3': menu_buscar.mostrar,
-        '4': menu_editar.mostrar,
-        '5': menu_eliminar.mostrar,
-        '6': menu_categorias.mostrar,
-        '7': menu_archivos.mostrar,
-        '8': lambda: True  # Salir
+        '1': menu_agregar,
+        '2': menu_ver,
+        '3': menu_buscar,
+        '4': menu_editar,
+        '5': menu_eliminar,
+        '6': menu_categorias,
+        '7': menu_archivos,
+        '8': lambda: True  # Retorna True para salir
     }
     
     return acciones.get(opcion, lambda: False)()

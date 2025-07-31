@@ -1,9 +1,9 @@
 """
-EDITAR ELEMENTOS - MODIFICA CAMPOS EXISTENTES
+EDITAR ELEMENTOS - MODIFICAR DATOS
 """
 import json
 from pathlib import Path
-from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_mensaje
+from utils.terminal import limpiar_pantalla, mostrar_encabezado
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 
@@ -21,22 +21,17 @@ def guardar_datos(datos):
         json.dump(datos, f, indent=2)
 
 def mostrar():
-    """Menú de edición"""
+    """Interfaz de edición"""
     datos = cargar_datos()
-    if not datos:
-        print("\nNo hay elementos para editar")
-        input("Presione Enter...")
-        return False
-    
     limpiar_pantalla()
     mostrar_encabezado("EDITAR ELEMENTO")
     
-    id_editar = input("Ingrese ID del elemento: ").strip()
-    elemento = next((item for item in datos if item['id'] == id_editar), None)
+    id_buscar = input("Ingrese el ID del elemento a editar: ").strip()
+    elemento = next((item for item in datos if item['id'] == id_buscar), None)
     
     if not elemento:
-        mostrar_mensaje("ID no encontrado", "error")
-        input("Presione Enter...")
+        print("\nError: ID no encontrado")
+        input("Presione Enter para continuar...")
         return False
     
     print(f"\nEditando: {elemento['titulo']}")
@@ -55,7 +50,7 @@ def mostrar():
         nuevo_valor = input(f"Nuevo {campos[opcion]}: ").strip()
         elemento[campos[opcion]] = nuevo_valor
         guardar_datos(datos)
-        mostrar_mensaje("¡Cambios guardados!", "éxito")
+        print("\n¡Cambios guardados exitosamente!")
     
-    input("Presione Enter...")
+    input("Presione Enter para continuar...")
     return False

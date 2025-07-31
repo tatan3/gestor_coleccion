@@ -1,11 +1,11 @@
 """
-GESTIÓN DE ARCHIVOS - RESPALDOS Y CARGA DE DATOS
+GESTIÓN DE ARCHIVOS - RESPALDOS Y RESTAURACIÓN
 """
 import json
 import shutil
 from pathlib import Path
 from datetime import datetime
-from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_mensaje
+from utils.terminal import limpiar_pantalla, mostrar_encabezado
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 RUTA_RESPALDO = Path(__file__).parent.parent / "datos/respaldo.json"
@@ -13,12 +13,12 @@ RUTA_RESPALDO = Path(__file__).parent.parent / "datos/respaldo.json"
 def crear_respaldo():
     """Crea una copia de seguridad con timestamp"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    ruta_respaldo = RUTA_DATOS.parent / f"respaldo_{timestamp}.json"
-    shutil.copy(RUTA_DATOS, ruta_respaldo)
-    return ruta_respaldo
+    ruta_nueva = RUTA_DATOS.parent / f"respaldo_{timestamp}.json"
+    shutil.copy(RUTA_DATOS, ruta_nueva)
+    return ruta_nueva
 
 def mostrar():
-    """Menú de gestión de archivos"""
+    """Interfaz de gestión de archivos"""
     while True:
         limpiar_pantalla()
         mostrar_encabezado("GESTIÓN DE ARCHIVOS")
@@ -31,16 +31,16 @@ def mostrar():
         
         if opcion == '3':
             return False
-            
+        
         if opcion == '1':
             ruta = crear_respaldo()
-            mostrar_mensaje(f"Respaldo creado: {ruta.name}", "éxito")
-            input("Presione Enter...")
+            print(f"\nRespaldo creado: {ruta.name}")
+            input("Presione Enter para continuar...")
         
         elif opcion == '2':
             if RUTA_RESPALDO.exists():
                 shutil.copy(RUTA_RESPALDO, RUTA_DATOS)
-                mostrar_mensaje("Respaldo restaurado", "éxito")
+                print("\n¡Respaldo restaurado exitosamente!")
             else:
-                mostrar_mensaje("No existe respaldo", "error")
-            input("Presione Enter...")
+                print("\nError: No existe archivo de respaldo")
+            input("Presione Enter para continuar...")

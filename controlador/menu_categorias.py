@@ -16,12 +16,8 @@ def cargar_datos():
         return []
 
 def mostrar():
-    """Menú de filtrado por categoría"""
+    """Interfaz de filtrado por categoría"""
     datos = cargar_datos()
-    if not datos:
-        print("\nNo hay elementos para filtrar")
-        input("Presione Enter...")
-        return False
     
     while True:
         limpiar_pantalla()
@@ -36,15 +32,15 @@ def mostrar():
         
         if opcion == '4':
             return False
-            
+        
         categorias = {'1': 'libro', '2': 'película', '3': 'música'}
         if opcion in categorias:
             elementos = [item for item in datos if item['tipo'] == categorias[opcion]]
             
-            if not elementos:
-                print(f"\nNo hay {categorias[opcion]}s en la colección")
-            else:
+            if elementos:
                 tabla = [[item['id'], item['titulo'], item['autor']] for item in elementos]
                 mostrar_tabla(tabla, ["ID", "Título", "Autor"])
+            else:
+                print(f"\nNo hay {categorias[opcion]}s en la colección")
             
-            input("\nPresione Enter...")
+            input("\nPresione Enter para continuar...")

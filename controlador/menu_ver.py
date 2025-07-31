@@ -1,5 +1,5 @@
 """
-VISUALIZAR ELEMENTOS - MUESTRA LA COLECCIÓN COMPLETA
+VER ELEMENTOS - LISTA COMPLETA
 """
 import json
 from pathlib import Path
@@ -16,26 +16,24 @@ def cargar_datos():
         return []
 
 def mostrar():
-    """Menú principal de visualización"""
+    """Muestra todos los elementos en tabla"""
     datos = cargar_datos()
-    if not datos:
-        print("\nNo hay elementos para mostrar")
-        input("Presione Enter...")
-        return False
-    
     limpiar_pantalla()
-    mostrar_encabezado("TODOS LOS ELEMENTOS")
+    mostrar_encabezado("LISTA DE ELEMENTOS")
     
-    tabla = []
-    for item in datos:
-        tabla.append([
-            item['id'],
-            item['tipo'],
-            item['titulo'],
-            item['autor'],
-            item.get('genero', 'N/A')
-        ])
+    if not datos:
+        print("No hay elementos para mostrar.")
+    else:
+        tabla = []
+        for item in datos:
+            tabla.append([
+                item['id'],
+                item['tipo'],
+                item['titulo'],
+                item['autor'],
+                item.get('genero', 'N/A')
+            ])
+        mostrar_tabla(tabla, ["ID", "Tipo", "Título", "Autor", "Género"])
     
-    mostrar_tabla(tabla, ["ID", "Tipo", "Título", "Autor", "Género"])
-    input("\nPresione Enter...")
+    input("\nPresione Enter para continuar...")
     return False
