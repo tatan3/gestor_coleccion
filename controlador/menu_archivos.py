@@ -1,24 +1,19 @@
-"""
-GESTIÓN DE ARCHIVOS - RESPALDOS Y RESTAURACIÓN
-"""
 import json
 import shutil
 from pathlib import Path
 from datetime import datetime
-from utils.terminal import limpiar_pantalla, mostrar_encabezado
+from utils.terminal import limpiar_pantalla, mostrar_encabezado, pausar
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 RUTA_RESPALDO = Path(__file__).parent.parent / "datos/respaldo.json"
 
 def crear_respaldo():
-    """Crea una copia de seguridad con timestamp"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     ruta_nueva = RUTA_DATOS.parent / f"respaldo_{timestamp}.json"
     shutil.copy(RUTA_DATOS, ruta_nueva)
     return ruta_nueva
 
 def mostrar():
-    """Interfaz de gestión de archivos"""
     while True:
         limpiar_pantalla()
         mostrar_encabezado("GESTIÓN DE ARCHIVOS")
@@ -35,7 +30,7 @@ def mostrar():
         if opcion == '1':
             ruta = crear_respaldo()
             print(f"\nRespaldo creado: {ruta.name}")
-            input("Presione Enter para continuar...")
+            pausar()
         
         elif opcion == '2':
             if RUTA_RESPALDO.exists():
@@ -43,4 +38,4 @@ def mostrar():
                 print("\n¡Respaldo restaurado exitosamente!")
             else:
                 print("\nError: No existe archivo de respaldo")
-            input("Presione Enter para continuar...")
+            pausar()

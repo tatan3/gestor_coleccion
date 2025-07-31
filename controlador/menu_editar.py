@@ -1,14 +1,10 @@
-"""
-EDITAR ELEMENTOS - MODIFICAR DATOS
-"""
 import json
 from pathlib import Path
-from utils.terminal import limpiar_pantalla, mostrar_encabezado
+from utils.terminal import limpiar_pantalla, mostrar_encabezado, pausar
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 
 def cargar_datos():
-    """Carga los datos desde JSON"""
     try:
         with open(RUTA_DATOS, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -16,12 +12,10 @@ def cargar_datos():
         return []
 
 def guardar_datos(datos):
-    """Guarda los datos en JSON"""
     with open(RUTA_DATOS, 'w', encoding='utf-8') as f:
         json.dump(datos, f, indent=2)
 
 def mostrar():
-    """Interfaz de edición"""
     datos = cargar_datos()
     limpiar_pantalla()
     mostrar_encabezado("EDITAR ELEMENTO")
@@ -31,7 +25,7 @@ def mostrar():
     
     if not elemento:
         print("\nError: ID no encontrado")
-        input("Presione Enter para continuar...")
+        pausar()
         return False
     
     print(f"\nEditando: {elemento['titulo']}")
@@ -51,6 +45,6 @@ def mostrar():
         elemento[campos[opcion]] = nuevo_valor
         guardar_datos(datos)
         print("\n¡Cambios guardados exitosamente!")
+        pausar()
     
-    input("Presione Enter para continuar...")
     return False

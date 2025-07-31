@@ -1,14 +1,10 @@
-"""
-VER ELEMENTOS - LISTA COMPLETA
-"""
 import json
 from pathlib import Path
-from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_tabla
+from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_tabla, pausar
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 
 def cargar_datos():
-    """Carga los datos desde JSON"""
     try:
         with open(RUTA_DATOS, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -16,7 +12,6 @@ def cargar_datos():
         return []
 
 def mostrar():
-    """Muestra todos los elementos en tabla"""
     datos = cargar_datos()
     limpiar_pantalla()
     mostrar_encabezado("LISTA DE ELEMENTOS")
@@ -35,5 +30,5 @@ def mostrar():
             ])
         mostrar_tabla(tabla, ["ID", "Tipo", "Título", "Autor", "Género"])
     
-    input("\nPresione Enter para continuar...")
+    pausar()
     return False

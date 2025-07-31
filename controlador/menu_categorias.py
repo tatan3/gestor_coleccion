@@ -1,14 +1,10 @@
-"""
-FILTRAR POR CATEGORÍA - LIBROS, PELÍCULAS O MÚSICA
-"""
 import json
 from pathlib import Path
-from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_tabla
+from utils.terminal import limpiar_pantalla, mostrar_encabezado, mostrar_tabla, pausar
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 
 def cargar_datos():
-    """Carga los datos desde JSON"""
     try:
         with open(RUTA_DATOS, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -16,7 +12,6 @@ def cargar_datos():
         return []
 
 def mostrar():
-    """Interfaz de filtrado por categoría"""
     datos = cargar_datos()
     
     while True:
@@ -43,4 +38,4 @@ def mostrar():
             else:
                 print(f"\nNo hay {categorias[opcion]}s en la colección")
             
-            input("\nPresione Enter para continuar...")
+            pausar()

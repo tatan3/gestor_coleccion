@@ -1,15 +1,11 @@
-"""
-AÑADIR ELEMENTOS - LIBROS, PELÍCULAS O MÚSICA
-"""
 import json
 from pathlib import Path
 from utils.generadores import generar_id
-from utils.terminal import limpiar_pantalla, mostrar_encabezado
+from utils.terminal import limpiar_pantalla, mostrar_encabezado, pausar
 
 RUTA_DATOS = Path(__file__).parent.parent / "datos/coleccion.json"
 
 def cargar_datos():
-    """Carga los datos existentes desde JSON"""
     try:
         with open(RUTA_DATOS, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -17,12 +13,10 @@ def cargar_datos():
         return []
 
 def guardar_datos(datos):
-    """Guarda los datos en JSON"""
     with open(RUTA_DATOS, 'w', encoding='utf-8') as f:
         json.dump(datos, f, indent=2)
 
 def mostrar():
-    """Interfaz para agregar nuevos elementos"""
     datos = cargar_datos()
     
     limpiar_pantalla()
@@ -56,6 +50,6 @@ def mostrar():
         datos.append(nuevo_elemento)
         guardar_datos(datos)
         print(f"\n¡{tipo.capitalize()} agregado con éxito! ID: {nuevo_elemento['id']}")
-        input("Presione Enter para continuar...")
+        pausar()
     
     return False

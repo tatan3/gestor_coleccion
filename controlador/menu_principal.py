@@ -1,6 +1,3 @@
-"""
-MENÚ PRINCIPAL - CENTRO DE NAVEGACIÓN
-"""
 from controlador.menu_agregar import mostrar as menu_agregar
 from controlador.menu_ver import mostrar as menu_ver
 from controlador.menu_buscar import mostrar as menu_buscar
@@ -8,10 +5,9 @@ from controlador.menu_editar import mostrar as menu_editar
 from controlador.menu_eliminar import mostrar as menu_eliminar
 from controlador.menu_categorias import mostrar as menu_categorias
 from controlador.menu_archivos import mostrar as menu_archivos
-from utils.terminal import mostrar_encabezado
+from utils.terminal import mostrar_encabezado, pausar
 
 def mostrar_menu_principal():
-    """Muestra el menú principal y redirige a submenús"""
     mostrar_encabezado("GESTOR DE COLECCIÓN CULTURAL")
     
     print("1. Añadir elemento")
@@ -33,7 +29,10 @@ def mostrar_menu_principal():
         '5': menu_eliminar,
         '6': menu_categorias,
         '7': menu_archivos,
-        '8': lambda: True  # Retorna True para salir
+        '8': lambda: True
     }
     
-    return acciones.get(opcion, lambda: False)()
+    resultado = acciones.get(opcion, lambda: False)()
+    if not resultado:
+        pausar()
+    return resultado
